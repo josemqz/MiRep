@@ -2,7 +2,7 @@
 
 typedef int tElemPoli;
 
-tPoli* BobLink();
+tPoli* constLista();
 
 void Next(tPoli *P);
 
@@ -12,11 +12,11 @@ void Insert(tPoli* P, tElemPoli c, tElemPoli e);
 
 void Clear(tPoli* P);
 
-void RalphLink(tPoli* P);
+void destructorLista(tPoli* P);
 
-unsigned int CurrPos(tPoli* P);
+//unsigned int CurrPos(tPoli* P);
 
-int Length(tPoli* P);
+//int Length(tPoli* P);
 
 int GetExpo(tPoli* P);
 
@@ -31,4 +31,4 @@ int verify (FILE *a, const char *b);
 
 int Coeficiente(tPoli** PAUL,int M, int p, int e);
 
-int Evaluar(tPoli** PAUL, int M, int p, int X, FILE* in, FILE* out);
+int Evaluar(tPoli** PAUL, int M, int p, float X, FILE* out);
