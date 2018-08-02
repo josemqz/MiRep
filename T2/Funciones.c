@@ -18,7 +18,7 @@ typedef struct{
 }tPoli;
 
 
-tPoli* BobLink(){
+tPoli* constLista(){
     tPoli *P = (tPoli*)malloc(sizeof(tPoli));
     P->head = P->tail = P->act = NULL;
     P->ListSize = 0;
@@ -78,18 +78,18 @@ void Clear(tPoli* P){
     P->pos = 0;
 }
 
-void RalphLink(tPoli* P){
+void destructorLista(tPoli* P){
     if(P->head !=NULL) free(P->head);
     free(P);
 }
 
-unsigned int CurrPos(tPoli* P){
+/*unsigned int CurrPos(tPoli* P){
     return P->pos;
-}
+}*/
 
-int Length(tPoli* P){
+/*int Length(tPoli* P){
     return P->ListSize;
-}
+}*/
 
 int GetExpo(tPoli* P){
     return (int)P->act->expo;
@@ -132,47 +132,48 @@ int verify (FILE *a, const char *b){
     return 0;
 }
 
-int Coeficiente(tPoli** PAUL, int M, int p, int e){
+int Coeficiente(tPoli** POLI, int M, int p, int e){
     if (p < M){
-        MoveToStart(PAUL[p]);
-        while(e != PAUL[p]->act->expo){
-            if (PAUL[p]->act == PAUL[p]->tail){
+        MoveToStart(POLI[p]);
+        while(e != POLI[p]->act->expo){
+            if (POLI[p]->act == POLI[p]->tail){
                 return 0;
             }
-            Next(PAUL[p]);
+            Next(POLI[p]);
         }
-        return GetCoef(PAUL[p]);
+        return GetCoef(POLI[p]);
     }
     else{
         return 0;
     }
 }
 
-/*tElemPoli* Ordenar(tElemPoli* P){
-    int MaxExpo = 0;
-    int i,j;
-    for(i = 0; i < ListSize(P); i++){
-        for(j = 0; j < )
-}
-}?*/
-
-int Evaluar(tPoli** PAUL, int M, int p,int X, FILE* in, FILE* out){
+int Evaluar(tPoli** POLI, int M, int p,float X, FILE* out){
     unsigned int i, j;
-    int MaxExpo = 0;
-    int MayCoef;
+    int MaxCoef, MaxExpo = 0;
     float S;
 
-    for (i = 0; i < PAUL[p]->ListSize; i++){
-        if (PAUL[p]->act->expo > MaxExpo) MaxExpo = PAUL[p]->act->expo;
+//Obtencion de maximo exponente
+    MoveToStart(POLI[p]);
+    for (i = 0; i < POLI[p]->ListSize; i++){
+        if (POLI[p]->act->expo > MaxExpo) MaxExpo = POLI[p]->act->expo;
+        Next(POLI[p]);
     }
+//Coeficiente de monomio de maximo exponente
+    MaxCoef = Coeficiente(POLI, M, p, MaxExpo);
 
-    MayCoef = Coeficiente(PAUL, M, p, MaxExpo);
-    S = PAUL[p]->act->expo + MayCoef * X;
-    for (j = MaxExpo-1; j >= 0; j--){
-        if ((unsigned int)PAUL[p]->act->expo == j){
-            S = GetCoef() + MayCoef * X;
-            //S = S GetCoef(PAUL[p]) + X * ;
-        }
+//ALGORITMO DE HORNER
+    S = (float)MaxCoef;
+    j = MaxExpo-1;  //contador
+    while(j > 0){
+        S = Coeficiente(POLI, M, p, j) + X*S;
+        j--;
     }
+    S = Coeficiente(POLI, M, p, 0) + X*S;
+
+//Impresion en archivo
+    fprintf(out, "%f\n", S);
+
+    //printf("%f\n",S);
     return 0;
 }
