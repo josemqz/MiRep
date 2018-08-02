@@ -10,8 +10,8 @@ int main(){
     FILE* out;
 
 //Apertura archivos
-    in = fopen("in.txt","r");
-    out = fopen("out.txt","w");
+    in = fopen("entradaPolinomio.txt","r");
+    out = fopen("salidaPolinomio.txt","w");
 
 //Verificacion archivo in
     verify(in,"in.txt");
@@ -21,7 +21,7 @@ int main(){
     fscanf(in,"%d", &M);
 
 //Arreglo de listas enlazadas
-    tPoli** PAUL = (tPoli**)malloc(M*sizeof(tPoli*));
+    tPoli** POLI = (tPoli**)malloc(M*sizeof(tPoli*));
 
 //Lectura archivo in
     for (i = 0; i < M; i++){
@@ -29,39 +29,42 @@ int main(){
         int N;
         fscanf(in,"%d", &N);
     //Inicializacion de polinomio i
-        PAUL[i] = BobLink();
+        POLI[i] = BobLink();
         for (j = 0; j < N; j++){
             int e, c;   //expo y coef
             fscanf(in,"%d %d", &e, &c);
-            Insert(PAUL[i], c, e);
+            Insert(POLI[i], c, e);
         }
     }
 
-//printf("%d\n", PAUL[2]->tail->coef);
 
 //Lectura de funciones
 char A[20];
 int p,q;
-while(fscanf(in,"%s %d %d",A,&p,&q) > 0){
+float x;
+while(fscanf(in,"%s",A) > 0){
 
     if (strcmp(A,"EVALUAR") == 0){
-        puts("d");
-        Evaluar(PAUL, M, p, q, in, out);
+        fscanf(in, "%d %f", &p, &x);
+        Evaluar(POLI, M, p, x, out);
     }
     else if (strcmp(A,"COEFICIENTE") == 0){
-        fprintf(out, "%d\n", Coeficiente(PAUL, M, p, q));
+        fscanf(in, "%d %d", &p, &q);
+        fprintf(out, "%d\n", Coeficiente(POLI, M, p, q));
     }
     else{
         puts("Error: arreglo de caracteres incorrecto\n"); //ji
+        //printf("%d\n", p);
     }
+    printf("%s\n", A);
 }
 
 //Liberacion de memoria
     for (i = 0; i < M; i++){
-        Clear(PAUL[i]);
-        RalphLink(PAUL[i]);
+        Clear(POLI[i]);
+        destructorLista(POLI[i]);
     }
-    free(PAUL);
+    free(POLI);
 
 //Cierre de archivos
     fclose(in);
