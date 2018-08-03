@@ -29,7 +29,7 @@ int main(){
         int N;
         fscanf(in,"%d", &N);
     //Inicializacion de polinomio i
-        POLI[i] = BobLink();
+        POLI[i] = constLista();
         for (j = 0; j < N; j++){
             int e, c;   //expo y coef
             fscanf(in,"%d %d", &e, &c);
