@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 /******
-*Struct Elementos polinomio
+*Definicion tipos de elementos de polinomios
 ******/
 typedef int tElemPoli;
-
+   
 /*****
 *Struct monomio de un polinomio
 *   coef: valor entero correspondiente al coeficiente
 *   expo: valor entero positivo del exponente
-*   sig: struct nodo puntero al sigte nodo
+*   sig: struct nodo puntero al siguiente nodo
 *****/
 typedef struct mono{
     tElemPoli coef;
@@ -18,7 +19,7 @@ typedef struct mono{
 }tmono;
 
 /*****
-*Struct Lista de Polinomios
+*Struct Lista enlazada de polinomios
 *   head: puntero al nodo inicial de la lista
 *   tail: puntero al nodo final de la lista 
 *   act: puntero en la ubicacion actual de la lista
@@ -34,12 +35,15 @@ typedef struct{
 }tPoli;
 
 /*****
-* tPoli* constLista
+*   tPoli* constLista
 ******
-*constructor de la lista, asigna la memoria necesaria, inicia la lista con 0 elemntos
+*   Constructor de la lista, asigna la memoria necesaria a la estructura, inicia la lista con 0 elementos
 ******
-*Returns: 
-*   tPoli* p, lista inicializada
+*   Input:
+*       Nada
+******
+*   Returns:
+*       tPoli*, lista inicializada
 *****/
 tPoli* constLista(){
     tPoli *P = (tPoli*)malloc(sizeof(tPoli));
@@ -50,12 +54,15 @@ tPoli* constLista(){
 }
 
 /*****
-* void next
+*   void Next
 ******
-*mueve el puntero a la posicion actual de la lista al siguiente elemento
+*   Mueve el puntero a la posicion actual de la lista al siguiente elemento
 ******
-*Returns: 
-*   nada
+*   Input:
+*       tPoli* P: Puntero a lista enlazada P
+******
+*   Returns: 
+*       Nada
 *****/
 void Next(tPoli *P){
     if (P->act != P->tail) {
@@ -65,14 +72,15 @@ void Next(tPoli *P){
 }
 
 /*****
-* tPoli* constLista
+*   tPoli* Prev
 ******
-*mueve el puntero con la posicion actual al nodo anteror a esta
+*   Mueve el puntero con la posicion actual al nodo anteror a esta
 ******
 *   Input:
-*       tPoli* t: una lista p
+*       tPoli* P: Puntero a lista enlazada P
+******
 *   Returns: 
-*   nada
+*       Nada
 *****/
 void Prev(tPoli* P){
     if (P->act != P->head){
@@ -87,19 +95,20 @@ void Prev(tPoli* P){
 }
 
 /*****
-* void insert
+*   void Insert
 ******
-*anade un elemento nuevo a la lista, se encarga de crearlo con la informacion solicitada
+*   Anade un elemento nuevo a la lista, se encarga de crearlo con la informacion solicitada
 ******
-*Input:
-*    tPoli* p: lista de monomios en la cual se agrgara el nuevo elemnto
-*    tElemPoli c: un entero con el coeficiente del monomio 
-*    tElemPoli e: un entero positivo con el exponente del monomio
-*Returns: 
-*    nada
+*   Input:
+*       tPoli* P: lista de monomios en la cual se agrgara el nuevo elemnto
+*       tElemPoli c: un entero con el coeficiente del monomio 
+*       tElemPoli e: un entero positivo con el exponente del monomio
+******
+*   Returns: 
+*       Nada
 *****/
 void Insert(tPoli* P, tElemPoli c, tElemPoli e){
-    if (P->head == NULL){ //lista vacia
+    if (P->head == NULL){   //en caso que la lista este vacia
         P->act = P->head = P->tail = (tmono*)malloc(sizeof(tmono));
         P->act->coef = c;
         P->act->expo = e;
@@ -119,14 +128,15 @@ void Insert(tPoli* P, tElemPoli c, tElemPoli e){
 }
 
 /*****
-* void clear
+*   void Clear
 ******
-*limpiador de la lista
+*   Limpia la lista, eliminando todos los nodos
 ******
-*Input:
-*    tPoli* p: lista de monomios la cual se le eliminaran los elementos
-*Returns: 
-*    nada
+*   Input:
+*       tPoli* P: lista de monomios a la cual se le eliminaran los elementos
+******
+*   Returns: 
+*       Nada
 *****/
 void Clear(tPoli* P){
     tmono* curr = P->head;
@@ -141,64 +151,60 @@ void Clear(tPoli* P){
     P->pos = 0;
 }
 /*****
-* void destructorLista
+*   void destructorLista
 ******
-*libera la lista
+*   Libera la memoria de la lista
 ******
-*Input:
-*    tPoli* p: lista de monomios que se desea liberar
-*Returns: 
-*    nada
+*   Input:
+*       tPoli* P: lista de monomios que se desea liberar
+******
+*   Returns: 
+*       Nada
 *****/
 void destructorLista(tPoli* P){
     if(P->head !=NULL) free(P->head);
     free(P);
 }
-
-/*unsigned int CurrPos(tPoli* P){
-    return P->pos;
-}*/
-
-/*int Length(tPoli* P){
-    return P->ListSize;
-}*/
-
 /*****
-* int GetExpo
+*   int GetExpo
 ******
-* funcion que se encarga de obtener un exponente del nodo de la posicion actual
+*   Funcion que se encarga de obtener el exponente del nodo de la posicion actual
 ******
-*Input:
-*    tPoli* p: lista de monomios de la cual se quiere obtener el exponente 
-*Returns: 
-*    entero con el exponente de la posicion actual
+*   Input:
+*       tPoli* P: lista de monomios de la cual se quiere obtener el exponente 
+******
+*   Returns: 
+*       int, exponente de la posicion actual
 *****/
 int GetExpo(tPoli* P){
     return (int)P->act->expo;
 }
 
 /*****
-* int GetCoef
+*   int GetCoef
 ******
-* funcion que se encarga de obtener un coeficiente del nodo de la posicion actual
+*   Funcion que se encarga de obtener el coeficiente del nodo de la posicion actual
 ******
-*Input:
-*    tPoli* p: lista de monomios de la cual se quiere obtener el coeficiente
-*Returns: 
-*    entero con el exponente coeficiente de la posicion actual
+*   Input:
+*       tPoli* P: lista de monomios de la cual se quiere obtener el coeficiente
+******
+*   Returns: 
+*       int, coeficiente de la posicion actual
 *****/
 int GetCoef(tPoli* P){
     return (int)P->act->coef;
 }
 
 /*****
-* void MoveToStart
+*   void MoveToStart
 ******
-* mueve el puntero con la posicion actual de la lista al inicio de esta
+*   Mueve el puntero con la posicion actual de la lista al inicio de esta
 ******
-*Input:
-*    tPoli* p: lista de monomios en la cual se quiere mover la posicion
-*    nada
+*   Input:
+*       tPoli* P: lista de monomios en la cual se quiere mover la posicion
+******
+*   Returns:
+*       Nada
 *****/
 void MoveToStart(tPoli *P) {
     P->act = P->head;
@@ -207,14 +213,15 @@ void MoveToStart(tPoli *P) {
 
 
 }/*****
-* void MoveToEnd
+*   void MoveToEnd
 ******
-* mueve el puntero con la posicion actual de la lista al inicio de esta
+*   Mueve el puntero con la posicion actual de la lista al final de esta
 ******
-*Input:
-*    tPoli* p: lista de monomios en la que se quiere mover la posicion
-*Returns: 
-*    nada
+*   Input:
+*       tPoli* P: lista de monomios en la que se quiere mover la posicion
+******
+*   Returns: 
+*       Nada
 *****/
 void MoveToEnd(tPoli* P){
     P->act = P->tail;
@@ -244,20 +251,19 @@ int verify (FILE *a, const char *b){
     return 0;
 }
 
-
 /*****
-* int coeficiente
+*   int Coeficiente
 ******
-* obtiene el coefiente de un polinomio de un arreglo de polinomios
+*   Obtiene el coefiente de un polinomio de un arreglo de polinomios a partir de su exponente
 ******
-*Input:
-*    tPoli** POLI: arreglo de polinomios
-*    int M: exponente maximo, djsncdjkxmv nfdjick fdjkmc 
-*    int p: polinomio que se desea buscar en el arreglo
-*    int e: exponente que se desea encontrar
-*Returns: 
-*    coeficiente del monomio
-*    retorna 0 en caso de no haberlo encontrado
+*   Input:
+*       tPoli** POLI: arreglo de listas enlazadas
+*       int M: cantidad de polinomios
+*       int p: polinomio que se desea buscar en el arreglo
+*       int e: exponente del monomio que se desea encontrar
+*   Returns: 
+*       int, coeficiente del monomio
+*       int, retorna 0 en caso de no haberlo encontrado
 *****/
 int Coeficiente(tPoli** POLI, int M, int p, int e){
     if (p < M){
@@ -275,20 +281,20 @@ int Coeficiente(tPoli** POLI, int M, int p, int e){
     }
 }
 
-
 /*****
-* int evaluar
+*   int Evaluar
 ******
-* calcula el resultado de evaluar un polinomio con un x deseado usando el elgoritmo de horner
+*   Calcula el resultado de evaluar un polinomio con un x deseado usando el elgoritmo de horner
 ******
-*Input:
-*    tPoli** POLI: arreglo de polinomios
-*    int M: exponente maximo, djsncdjkxmv nfdjick fdjkmc 
-*    int p: polinomio que se desea buscar en el arreglo
-*    float x:
-*    FILE* out:
-*Returns: 
-*    nada
+*   Input:
+*       tPoli** POLI: arreglo de listas enlazadas
+*       int M: cantidad de polinomios
+*       int p: polinomio que se desea buscar en el arreglo
+*       float X: variable a evaluar en el polinomio
+*       FILE* out: archivo de salida donde se imprimira el resultado
+******
+*   Returns: 
+*       Nada
 *****/
 int Evaluar(tPoli** POLI, int M, int p,float X, FILE* out){
     unsigned int i, j;
@@ -311,11 +317,10 @@ int Evaluar(tPoli** POLI, int M, int p,float X, FILE* out){
         S = Coeficiente(POLI, M, p, j) + X*S;
         j--;
     }
-    S = Coeficiente(POLI, M, p, 0) + X*S;
+    S = Coeficiente(POLI, M, p, 0) + X*S;   //monomio de exponente 0
 
 //Impresion en archivo
     fprintf(out, "%f\n", S);
 
-    //printf("%f\n",S);
     return 0;
 }
