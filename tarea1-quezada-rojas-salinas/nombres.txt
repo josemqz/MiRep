@@ -1,0 +1,4 @@
+
+José Miguel Quezada Silva, rol: 201773528-7, par: 201, funciones: Archivo_Maestro; line_count; extraccion de datos en archivos(parte 2)
+Jordan Rojas Alvarado, rol: 201773571-6, par: 202, funciones: verify(parte 1 y parte 2); line_count; extraccion de datos en archivos(parte 2)
+Martin Salinas Scussolin, rol: 201773557-0, par:201, funciones: cmpfunc; findCommon; extraccion de datos en archivos(parte1) 
