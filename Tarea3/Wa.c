@@ -1,22 +1,27 @@
 #include "stdio.h"
 #include "stdlib.h"
+#define VISITADO 1
+#define VISITADONT 0
+#define MAX(X,Y) ((X > Y)?(X):(Y))
 
 typedef struct node{
     int numbr;
     struct node* next;
+    int vis;
 }listNode;
 
 typedef struct {
     listNode* curr;
     listNode* head;
     listNode* tail;
-    unsigned int size;
-    unsigned int pos;
+    int size;
+    int pos;
 }linkList;
 
 typedef struct{
-    unsigned int nVertex;
+    int nVertex;
     linkList** array;
+    int* visited;
 }graphList;
 
 linkList* ListConstructor(){
@@ -45,7 +50,7 @@ void listInsert(linkList* l, int item){
     l->size++;
 }
 
-void next(linkList* l) {
+void next(linkList* l){
     if (l->curr != l->tail) {
         l->curr = l->curr->next;
         l->pos++;
@@ -92,12 +97,13 @@ void moveToEnd(linkList* l) {
     l->pos = l->size - 1;
 }
 
-graphList* initGraph(unsigned int vertex){  //podriamos tratar los structs directamente en vez de usar punteros
+graphList* initGraph(int vertex){
     graphList* G = (graphList*)malloc(sizeof(graphList));
     linkList** arr = (linkList**)malloc(vertex*sizeof(linkList*));
-    unsigned int i;
-    for (i = 0; i < vertex; i++) {
+    G->visited = (int*)malloc(sizeof(int));
+    for (int i = 0; i < vertex; i++) {
         arr[i] = ListConstructor();
+        G->visited[i] = 0;
     }
     G->array = arr;
     G->nVertex = vertex;
@@ -105,13 +111,15 @@ graphList* initGraph(unsigned int vertex){  //podriamos tratar los structs direc
 }
 
 void graphDestroyer(graphList* g) {
-    unsigned int i;
+    int i;
     for (i = 0; i < g->nVertex; i++) {
         Clear(g->array[i]);
         destroyerL(g->array[i]);
     }
     free(g->array);
     free(g);
+
+    free(g->visited);
 }
 
 int vertex(graphList* g) {
@@ -124,4 +132,72 @@ void setEdge(graphList* G, int source, int dest){
 }
 
 
-//DFS(G,v){}
+
+int* SearchEkono(graphList* G, int v, int* Arr, int jona){
+    puts("In");
+    if (G->array[v]->curr->vis == VISITADO) {
+        jona--;     //Comprobar jona en ruteo
+        return Arr; //Cachar si es la unica forma u.u
+        puts("YaV");
+    }
+
+    G->array[v]->curr->vis = VISITADO;
+
+    Arr[jona] = G->array[v]->curr->numbr;
+
+//A -> B -> C -> D -> F
+//B -> E -> D
+//E -> C
+//D -> E -> X
+//F -> |_
+
+    while(G->array[v]->curr != G->array[v]->tail){
+        jona++;
+        next(G->array[v]);
+        SearchEkono(G, G->array[v]->curr->numbr, Arr, jona);
+    }
+    return Arr;
+}
+
+linkList* finalArr(int* A, int nodosGrafo, int* B, int alcanzables){
+
+    int i,j;
+
+    linkList* list = ListConstructor();
+
+    for (i = 0; i < nodosGrafo; i++) {
+
+        for (j = 0; j < alcanzables; j++) {
+
+          if(A[i] == B[j]){
+              listInsert(list,A[i]);
+          }
+        }
+    }
+
+    return list;
+}
+
+void printToScreen(linkList* l){
+
+    printf("%d ", l->size);
+
+    while (l->curr != l->tail) {
+        printf("%d ",l->curr->numbr);
+        next(l);
+    }
+
+    printf("\n");
+}
+
+
+
+//Va a ir revisando nodos, partiendo del v, para así ver a los que se puede llegar desde este.
+    //Parte con él y sigue a la posicion del arreglo correspondiente a cada nodo directamente conectado a v.
+        //if ->next == NULL terminar busqueda (así es recursiva)
+    //De ahí continúa la búsqueda a través de la lista enlazada.
+//Hay que ir metiendo los nodos a una estructura, un arreglo.
+//Una vez termine la busqueda, habría que hacer otro arreglo con todos los nodos e ir eliminando los existentes en el
+//otro arreglo. Ojalá no sea muy costoso.
+//Retorna este arreglo final, el cual deberá ser introducido al archivo de texto.
+//BOOM!

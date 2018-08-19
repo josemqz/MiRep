@@ -4,28 +4,38 @@
 
 int main(){
 
+    FILE *FE;
     graphList *G;
     int i, N, M, Q;     //N: ciudades / 1 <= N <= 1.000.000 ; M: vuelos / 0 <= M <= 50.000.000
     int O, D, q;
 
-    scanf("%d\n", &N);
-    scanf("%d\n", &M);
+    int* Reach;
+    FE = fopen("salida.txt","w");
+
+    scanf("%d\n", &N); //ciudades
+    scanf("%d\n", &M); //vuelos
+
+    //if (N > 1000000 || N < 0){ puts("men why"); return -1;}   ji
+    //if (N > 50000000 || N < 0){ puts("men why"); return -1;}  ji
 
     G = initGraph(N);
+    Reach = (int*)malloc(N*sizeof(int));
 
     for (i = 0; i < M; i++){
         scanf("%d %d", &O, &D);
         setEdge(G, O, D);   //Insertar en TDA
-        printf("%d %d\n", O, D);
+        //printf("%d %d\n", O, D);
     }
 
-    printf("curr :%d\n", G->array[0]->curr->numbr);
+    //printf("curr :%d\n", G->array[0]->curr->numbr);
 
     scanf("%d\n", &Q);
     for (i = 0; i < Q; i++){
         scanf("%d", &q);
-    //Buscar nodos no conectados a q
-        //DFS(G,q);
+    //Buscar nodos conectados a q
+        Reach = SearchEkono(G,q,Reach,0);
+        puts("yos");
+    //Retornar los demas
     }
 
 
@@ -56,5 +66,7 @@ int main(){
 //END TEST*/
 
     graphDestroyer(G);
+    fclose(FE);
+
     return 0;
 }
