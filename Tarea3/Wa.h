@@ -14,4 +14,4 @@ graphList* initGraph(int vertex);
 void graphDestroyer(graphList* g);
 int vertex(graphList* g);
 void setEdge(graphList* G, int source, int dest);
-int* SearchEkono(graphList* G, int v, int* Arr, int jona);
+linkList* SearchEkono(graphList* G, int v, linkList* Arr);

@@ -100,10 +100,12 @@ void moveToEnd(linkList* l) {
 graphList* initGraph(int vertex){
     graphList* G = (graphList*)malloc(sizeof(graphList));
     linkList** arr = (linkList**)malloc(vertex*sizeof(linkList*));
-    G->visited = (int*)malloc(sizeof(int));
-    for (int i = 0; i < vertex; i++) {
+    int i;
+    //G->visited = (int*)malloc(sizeof(int));
+    for (i = 0; i < vertex; i++) {
         arr[i] = ListConstructor();
-        G->visited[i] = 0;
+        listInsert(arr[i],i);
+        //G->visited[i] = 0;
     }
     G->array = arr;
     G->nVertex = vertex;
@@ -119,7 +121,7 @@ void graphDestroyer(graphList* g) {
     free(g->array);
     free(g);
 
-    free(g->visited);
+    //free(g->visited);
 }
 
 int vertex(graphList* g) {
@@ -133,61 +135,98 @@ void setEdge(graphList* G, int source, int dest){
 
 
 
-int* SearchEkono(graphList* G, int v, int* Arr, int jona){
-    puts("In");
-    if (G->array[v]->curr->vis == VISITADO) {
-        jona--;     //Comprobar jona en ruteo
-        return Arr; //Cachar si es la unica forma u.u
-        puts("YaV");
+linkList* SearchEkono(graphList* G, int v, linkList* LArry){
+
+    if (G->array[v]->curr->vis != VISITADO) {
+        //printf("%d\n", );
+        G->array[v]->curr->vis = VISITADO;
+
+        listInsert(LArry,G->array[v]->curr->numbr);
+
+    //A(0) -> B(1) -> C(6)(5) -> D(6)(5) -> F (6)
+    //B -> E(2) -> D(4)s
+    //E -> C(3)
+    //D -> E(5)(4) -> X(5)
+    //F -> |_
+    //C -> |_
+    //Arr = {A,B,E,C,D,X,F}
+
+        while(G->array[v]->curr != G->array[v]->tail){
+
+            printf("curr(%d): %d\n",v, G->array[v]->curr->numbr);
+
+            next(G->array[v]);
+            SearchEkono(G, G->array[v]->curr->numbr, LArry);
+        }
     }
-
-    G->array[v]->curr->vis = VISITADO;
-
-    Arr[jona] = G->array[v]->curr->numbr;
-
-//A -> B -> C -> D -> F
-//B -> E -> D
-//E -> C
-//D -> E -> X
-//F -> |_
-
-    while(G->array[v]->curr != G->array[v]->tail){
-        jona++;
-        next(G->array[v]);
-        SearchEkono(G, G->array[v]->curr->numbr, Arr, jona);
-    }
-    return Arr;
+    return LArry;
 }
 
-linkList* finalArr(int* A, int nodosGrafo, int* B, int alcanzables){
 
+void removeFromAdjList(linkList* L, int item){
+    moveToStart(L);
+    while (L->curr != L->tail) {
+        if (L->curr->numbr == item) {
+            listNode* CurrHolder;
+            listNode* aux;
+            aux = L->curr;
+            CurrHolder = L->curr->next;
+            prev(L);
+            L->curr->next = CurrHolder;
+            free(aux);
+            L->size--;
+        }
+        next(L);
+    }
+
+}
+/*
+void Remove(tLista* L){
+    if (L->act == L->head){
+        free(L->head);
+        L->act = L->head = L->act->sig;
+    }
+    else{
+        Prev(L);
+        L->act->sig = L->act->sig->sig;
+        L->act->sig = NULL; //pa que no webee valgrind ldfjsk
+        free(L->act->sig);
+    }
+    L->ListSize--;
+}
+*/
+
+linkList* finalList(int* A, int nodosGrafo, int* B, int alcanzables){
     int i,j;
-
     linkList* list = ListConstructor();
-
     for (i = 0; i < nodosGrafo; i++) {
-
+        listInsert(list,A[i]);
+    }
+    for (i = 0; i < nodosGrafo; i++) {
         for (j = 0; j < alcanzables; j++) {
-
           if(A[i] == B[j]){
-              listInsert(list,A[i]);
+              removeFromAdjList(list,A[i]);
           }
         }
     }
-
     return list;
 }
 
 void printToScreen(linkList* l){
-
-    printf("%d ", l->size);
-
-    while (l->curr != l->tail) {
-        printf("%d ",l->curr->numbr);
-        next(l);
+    if(l->head == NULL){
+        printf("%d\n", 0);
     }
+    else{
+        moveToStart(l);
 
-    printf("\n");
+        printf("%d ", l->size);
+
+        while (l->curr != l->tail) {
+            printf("%d ",l->curr->numbr);
+            next(l);
+        }
+        printf("%d\n", l->tail->numbr);
+    }
 }
 
 
