@@ -21,7 +21,6 @@ typedef struct {
 typedef struct{
     int nVertex;
     linkList** array;
-    int* visited;
 }graphList;
 
 linkList* ListConstructor(){
@@ -101,11 +100,9 @@ graphList* initGraph(int vertex){
     graphList* G = (graphList*)malloc(sizeof(graphList));
     linkList** arr = (linkList**)malloc(vertex*sizeof(linkList*));
     int i;
-    //G->visited = (int*)malloc(sizeof(int));
     for (i = 0; i < vertex; i++) {
         arr[i] = ListConstructor();
         listInsert(arr[i],i);
-        //G->visited[i] = 0;
     }
     G->array = arr;
     G->nVertex = vertex;
@@ -120,8 +117,6 @@ void graphDestroyer(graphList* g) {
     }
     free(g->array);
     free(g);
-
-    //free(g->visited);
 }
 
 int vertex(graphList* g) {
@@ -130,42 +125,40 @@ int vertex(graphList* g) {
 
 void setEdge(graphList* G, int source, int dest){
     listInsert(G->array[source], dest);
-//    listInsert(G->array[dest], source); //CHECK
+//    listInsert(G->array[dest], source);
 }
 
 
 
 linkList* SearchEkono(graphList* G, int v, linkList* LArry){
 
-    if (G->array[v]->curr->vis != VISITADO) {
-        //printf("%d\n", );
+    if (G->array[v]->curr->vis != VISITADO || G->array[v]->head->vis != VISITADO) {
+                    //NODOS SON DISTINTOOOOOOOS
         G->array[v]->curr->vis = VISITADO;
 
-        listInsert(LArry,G->array[v]->curr->numbr);
-
-    //A(0) -> B(1) -> C(6)(5) -> D(6)(5) -> F (6)
-    //B -> E(2) -> D(4)s
-    //E -> C(3)
-    //D -> E(5)(4) -> X(5)
-    //F -> |_
-    //C -> |_
-    //Arr = {A,B,E,C,D,X,F}
+        listInsert(LArry, G->array[v]->curr->numbr);
+        //printf("c: %d\n", G->array[v]->curr->numbr);
 
         while(G->array[v]->curr != G->array[v]->tail){
-
-            printf("curr(%d): %d\n",v, G->array[v]->curr->numbr);
-
             next(G->array[v]);
             SearchEkono(G, G->array[v]->curr->numbr, LArry);
         }
-    }
-    return LArry;
+    }    return LArry;
 }
+//        printf("curr(%d): %d\n",v, G->array[v]->curr->numbr);
+//puts("A");
+//A -> B -> C -> D -> F
+//B -> E -> D
+//E -> C
+//D -> E -> X
+//F -> |_
+//C -> |_
+//Arr = {A,B,E,C,D,X,F}
 
 
 void removeFromAdjList(linkList* L, int item){
-    moveToStart(L);
-    while (L->curr != L->tail) {
+
+    for (moveToStart(L); L->curr != L->tail; next(L)) {
         if (L->curr->numbr == item) {
             listNode* CurrHolder;
             listNode* aux;
@@ -176,67 +169,41 @@ void removeFromAdjList(linkList* L, int item){
             free(aux);
             L->size--;
         }
-        next(L);
     }
-
 }
-/*
-void Remove(tLista* L){
-    if (L->act == L->head){
-        free(L->head);
-        L->act = L->head = L->act->sig;
-    }
-    else{
-        Prev(L);
-        L->act->sig = L->act->sig->sig;
-        L->act->sig = NULL; //pa que no webee valgrind ldfjsk
-        free(L->act->sig);
-    }
-    L->ListSize--;
-}
-*/
 
-linkList* finalList(int* A, int nodosGrafo, int* B, int alcanzables){
-    int i,j;
-    linkList* list = ListConstructor();
+linkList* finalList(int nodosGrafo, linkList* alcanzables, linkList* list){
+    int i;
+
     for (i = 0; i < nodosGrafo; i++) {
-        listInsert(list,A[i]);
+        listInsert(list,i);
     }
+    moveToStart(list);
+
     for (i = 0; i < nodosGrafo; i++) {
-        for (j = 0; j < alcanzables; j++) {
-          if(A[i] == B[j]){
-              removeFromAdjList(list,A[i]);
-          }
+
+        for (moveToStart(alcanzables); alcanzables->curr != alcanzables->tail; next(alcanzables)) {
+
+          if(i == alcanzables->curr->numbr) removeFromAdjList(list,i);
         }
     }
     return list;
 }
 
 void printToScreen(linkList* l){
+
     if(l->head == NULL){
         printf("%d\n", 0);
     }
-    else{
-        moveToStart(l);
 
+    else{
         printf("%d ", l->size);
 
-        while (l->curr != l->tail) {
+        for (moveToStart(l); l->curr != l->tail; next(l)){
             printf("%d ",l->curr->numbr);
-            next(l);
         }
         printf("%d\n", l->tail->numbr);
     }
 }
 
-
-
-//Va a ir revisando nodos, partiendo del v, para así ver a los que se puede llegar desde este.
-    //Parte con él y sigue a la posicion del arreglo correspondiente a cada nodo directamente conectado a v.
-        //if ->next == NULL terminar busqueda (así es recursiva)
-    //De ahí continúa la búsqueda a través de la lista enlazada.
-//Hay que ir metiendo los nodos a una estructura, un arreglo.
-//Una vez termine la busqueda, habría que hacer otro arreglo con todos los nodos e ir eliminando los existentes en el
-//otro arreglo. Ojalá no sea muy costoso.
-//Retorna este arreglo final, el cual deberá ser introducido al archivo de texto.
 //BOOM!

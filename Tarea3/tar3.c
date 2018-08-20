@@ -29,44 +29,33 @@ int main(){
     for (i = 0; i < Q; i++){
         scanf("%d", &q);
 
+
+    /*    moveToStart(G->array[q]);
+        for(moveToStart(G->array[q]); G->array[q]->curr != G->array[q]->tail; next(G->array[q])){
+            printf("q: %d\n", G->array[q]->curr->numbr);
+        }
+printf("T: %d\n", G->array[q]->tail->numbr);
+*/
+
     //Buscar nodos conectados a q
         Reach = ListConstructor();
         Reach = SearchEkono(G, q, Reach);
 
-    printToScreen(Reach);
+linkList* list;
+list = ListConstructor();
+
+list = finalList(N,Reach,list);
+
+    //printToScreen(Reach);
+    printToScreen(list);
 
         Clear(Reach);
         destroyerL(Reach);
-
+        Clear(list);
+        destroyerL(list);
     //Retornar los demas
     }
 
-
-/*/TEST
-    listInsert(G->array[1],5);
-    listInsert(G->array[1],4443);
-    listInsert(G->array[1],5);
-
-    listInsert(G->array[6],0);
-    listInsert(G->array[6],0);
-    listInsert(G->array[6],3456789);
-
-    moveToStart(G->array[6]);
-    moveToStart(G->array[1]);
-    while (G->array[1]->curr != G->array[1]->tail){
-        printf("%d\n", G->array[1]->curr->numbr);
-        printf("p: %d\n", G->array[1]->pos);
-        next(G->array[1]);
-    }
-        printf("%d\n", G->array[1]->curr->numbr);
-
-    while (G->array[6]->curr != G->array[6]->tail){
-        printf("%d\n", G->array[6]->curr->numbr);
-        printf("p: %d\n", G->array[6]->pos);
-        next(G->array[6]);
-    }
-    printf("%d\n", G->array[6]->curr->numbr);
-//END TEST*/
 
     graphDestroyer(G);
 
