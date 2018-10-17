@@ -1,0 +1,31 @@
+HAI
+
+  I HAS A y
+  y R DIFF OF 10 AN 2   BTW 8
+  I HAS A x ITZ SUM OF PRODUKT OF 3 AN 1 AN y   BTW x = (3*1)+y
+  VISIBLE x
+
+  IM IN YR c UPPIN YR y WILE DIFFRINT x AN 5
+    y R SUM OF 1 AN x
+    x R DIFF OF x AN 1
+  IM OUTTA YR c
+  VISIBLE y
+
+{}
+O RLY?
+YA RLY
+{
+}
+NO WAI
+{
+}
+OIC
+
+KTHXBYE
+
+
+O RLY?
+<>
+YA RLY <>
+NO WAI <>
+OIC
