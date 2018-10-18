@@ -20,6 +20,10 @@ void Next(ListGen* L){
     L->curr = L->curr->next;
 }
 
+void MoveToStart(ListGen* L){
+    L->curr = L->head;
+}
+
 void RandNodo(struct tNodo* N){
     //definir aleatoriamente tipo de dato del nodo actual
         N->tipo = "cib"[rand() % 3];
@@ -53,34 +57,63 @@ void RandNodo(struct tNodo* N){
         }
 }
 
+void* getRand(tNodo* node){
+
+    char* a[] = {"i","c","b"};
+    char* b[] = {"A","B","C","D","E","F"};
+
+    char i = *a[rand() % 3];
+    ((tNodo*)node)->tipo = i;
+
+
+    if (i == 'i') {
+    	int* data2 = (int*)malloc(sizeof(int));
+    	*data2 = rand() % 10;
+     	((tNodo*)node)->dato = data2;
+    }
+
+    else if (i == 'c') {
+    	char* data2 = (char*)malloc(sizeof(char));
+    	*data2 = *b[rand() % 6];
+        ((tNodo*)node)->dato = data2;
+    }
+
+    else{
+    	int* data2 = (int*)malloc(sizeof(int));
+    	*data2 = rand() % 2;
+        ((tNodo*)node)->dato = data2;
+    }
+
+    return node;
+}
 
 void* generarSolucion(int n){
 
     ListGen* S = (ListGen*) malloc (sizeof(ListGen)); //nueva lista
 
-    S->tail = S->head = S->curr = (tNodo*) malloc (sizeof (tNodo));
-    RandNodo (S->curr);
+    S->tail = S->head = S->curr = (tNodo*) malloc (sizeof(tNodo));
+    S->tail = S->head = S->curr = (tNodo*)getRand(S->curr);
 
-    //char
-    if (S->head->tipo == 'c'){
-        printf("charhead: %c\n", *((char*) (S->head->dato)));
-    }
-    //int
-    else if (S->head->tipo == 'i'){
-        printf("inthead: %d\n", *((int*) (S->head->dato)));
-    }
-    //bit
-    else if (S->head->tipo == 'b'){
-        printf("bithead: %d\n", *((unsigned int*) (S->head->dato)));
-    }
-    //---------------------------------------------
     int i;
     for (i = 1; i < n; i++){
 
-        S->tail->next = (tNodo*) malloc (sizeof (tNodo));
-        RandNodo(S->tail->next);
+        S->tail->next = (tNodo*)malloc(sizeof(tNodo));
+        S->tail->next = (tNodo*)getRand(S->tail->next);
 
-            if(S->tail->next != NULL) S->tail = S->tail->next;
+        //---------------------------------------------
+        if (S->tail->next->tipo == 'c'){
+            printf("charCOP: %c\n", *((char*) S->tail->next->dato));
+        }
+    //int
+        else if (S->tail->next->tipo == 'i'){
+            printf("intCOP: %d\n", *((int*) S->tail->next->dato));
+        }
+    //bitatom://teletype/portal/be8466f5-bfff-4a51-9560-19afc91dc00d
+        else if (S->tail->next->tipo == 'b'){
+            printf("bitCOP: %d\n", *((unsigned int*) S->tail->next->dato));
+        }
+                //-------------------------------------------------
+        if(S->tail->next != NULL) S->tail = S->tail->next;
     }
 
 //largo lista
@@ -98,41 +131,37 @@ void* copiar(void* S){
 
     Cop = (ListGen*)malloc(sizeof(ListGen));
 
-    int t;
-    t = (int)((ListGen*)S)->size;
-    //printf("T:%d\n", t);
+    Cop->tail = Cop->head = Cop->curr = (tNodo*) malloc (sizeof(tNodo));
+    Cop->tail = Cop->head = Cop->curr = (tNodo*)getRand(Cop->curr);
+
+    MoveToStart((ListGen*)S);
+
     int i;
-    ((ListGen*)S)->curr = ((ListGen*)S)->head;
+    for(i = 1; i < (int)((ListGen*)S)->size; i++){
 
-    for(i = 0; i < t-2; i++){
+        Cop->tail->next = (tNodo*)malloc(sizeof(tNodo));
 
-        Cop->curr = ( tNodo*)malloc(sizeof( tNodo));
+        Cop->tail->next->tipo = ((ListGen*)S)->curr->tipo;    //ERROR
+        Cop->tail->next->dato = ((ListGen*)S)->curr->dato;
 
-        if (i == 0){
-            Cop->head = Cop->curr;
-        }
-
-        Cop->curr->tipo = ((ListGen*)S)->curr->tipo;    //ERROR
-        Cop->curr->dato = ((ListGen*)S)->curr->dato;
-
-/*    //---------------------------------------------
-    if (Cop->curr->tipo == 'c'){
-        printf("char: %c\n", (char*) Cop->curr->dato);
+    //---------------------------------------------
+    if (Cop->tail->next->tipo == 'c'){
+        printf("charCOP: %c\n", *((char*) Cop->tail->next->dato));
     }
 //int
-    else if (Cop->curr->tipo == 'i'){
-        printf("int: %d\n", (int*) Cop->curr->dato);
+    else if (Cop->tail->next->tipo == 'i'){
+        printf("intCOP: %d\n", *((int*) Cop->tail->next->dato));
     }
 //bit
-    else if (Cop->curr->tipo == 'b'){
-        printf("bit: %d\n", (unsigned int*) Cop->curr->dato);
+    else if (Cop->tail->next->tipo == 'b'){
+        printf("bitCOP: %d\n", *((unsigned int*) Cop->tail->next->dato));
     }
             //-------------------------------------------------
-*/
-        Cop->curr = Cop->curr->next;
-        ((ListGen*)S)->curr = ((ListGen*)S)->curr->next; //ERROR
+
+        Cop->tail = Cop->tail->next;
+        Next((ListGen*)S);
     }
-    Cop->tail = Cop->curr;
+
     Cop->size = ((ListGen*)S)->size;
 
     return Cop;
@@ -142,26 +171,9 @@ void* copiar(void* S){
 void Clear(void* S){
      tNodo* curr = ((ListGen*)S)->head;
      tNodo* sig;
-    printf("1: %c\n", curr->tipo);
-    if ( ((ListGen*)S)->head->next == NULL) puts("weaSDKLFJSDHSDFKLDKLAF");
-    //printf("2: %c\n", curr->next->tipo);
     while(curr != NULL){
-        //puts("AAHAHEFSKDSDFHJ");
         sig = curr->next;
-/*
-        //char
-        if (sig->tipo == 'c'){
-            printf("CLEAR:char: %c\n", *((char*) (sig->dato)));
-        }
-        //int
-        else if (sig->tipo == 'i'){
-            printf("CLEAR:int: %d\n", *((int*) (sig->dato)));
-        }
-        //bit
-        else if (sig->tipo == 'b'){
-            printf("CLEAR:bit: %d\n", *((unsigned int*) (sig->dato)));
-        }
-*/
+
         free(curr);
         curr = sig;
     }
@@ -183,11 +195,6 @@ int main(){
     tn = localtime(&now);
 
     srand(tn->tm_sec + tn->tm_min);
-
-    /*int i;
-    for(i = 0; i < 10; i++){
-        printf("%d\n", rand()%9);
-    }*/
 
     ListGen* S;
     S = (ListGen*)generarSolucion(10);
@@ -220,7 +227,7 @@ int main(){
 
     //-------------------------------------------------
 
-    //1copiar(S);
+    copiar(S);
     //Clear(S);
     return 0;
 }
