@@ -1,0 +1,25 @@
+#lang scheme
+(define suma_help
+  (lambda (arb num sum)
+    (+ numero suma)
+    (cond
+        ((eq? (car arbol) numero) numero)
+        ((< (car arbol) numero) suma_help car(cdr(arb)) num sum)
+        (else suma_help cdr(cdr(arb)) num sum)
+      )
+    )
+  )
+)
+
+(define suma_arbol
+  (lambda (arbol numero)
+    (let ((suma 0))
+      (cond
+        ((eq? (car arbol) numero) numero)
+        ((< (car arbol) numero) suma_help car(cdr(arbol)) numero suma)
+        (else suma_help cdr(cdr(arbol)) numero suma)
+      )
+    )
+  )
+)
+

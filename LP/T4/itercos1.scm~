@@ -1,0 +1,33 @@
+#lang scheme
+( define factorial
+   ( lambda ( n )
+      ( let fact (( i n ) )
+         ( if (= i 0)
+              1
+              (* i ( factorial (- i 1) ) )
+          )
+       )
+    )
+)
+
+(define iter_cos
+  (lambda (x n)
+    (if (> n 0)
+     (let ((i 0) (s 0))
+        (do ((i 0 (+ i 1)))
+          ((> i (- n 1)))
+          (set! s (+ s (/ (* (expt -1 i) (expt x (* 2 i))) (factorial(* 2 i))) ))
+          ;(display "i:")
+          ;(display i)
+          ;(display "\n")
+          (display s)
+          (display "\n")
+        )
+      )
+     (display "wrong")
+    )
+   )
+ )
+       
+
+(iter_cos (/ pi 2) 5)

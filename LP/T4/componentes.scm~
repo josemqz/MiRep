@@ -1,0 +1,8 @@
+#lang racket
+
+(define (componentes grafo)
+  (let (Ll '())
+    (for-each
+      (lambda (v)
+        (let (flag #f)
+          (
