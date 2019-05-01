@@ -6,7 +6,7 @@ void Leer(int* p){
     printf("%s\n", "Número:");
     scanf("%d",&p[i]);  //&(p[i])
     printf("%d\n", p[i]);
-    }
+  }
 }
 
 int main(){
