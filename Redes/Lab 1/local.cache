@@ -1,0 +1,76 @@
+facebook.com
+HTTP/1.1 301 Moved Permanently
+Location: http://www.facebook.com/
+Content-Type: text/html; charset="utf-8"
+X-FB-Debug: uIQFrCyjx3xI3WCW2grrv8oty4LH+H22YX2C8SlHgix2JMcSghCrnWVhije5CxzblkorEkLbPftrOT0EMiCdqw==
+Date: Mon, 04 May 2020 03:02:50 GMT
+Alt-Svc: h3-27=":443"; ma=3600
+Connection: keep-alive
+Content-Length: 0
+<<< EOC >>>
+spaceis.cool
+HTTP/1.1 400 Bad Request
+Server: nginx/1.2.6 (Ubuntu)
+Date: Sun, 03 May 2020 19:27:18 GMT
+Content-Type: text/html
+Content-Length: 181
+Connection: close
+
+
+
+
+<<< EOC >>>
+twitch.tv
+HTTP/1.1 500 Domain Not Found
+Server: Varnish
+Retry-After: 0
+content-type: text/html
+Cache-Control: private, no-cache
+connection: keep-alive
+X-Served-By: cache-scl19424-SCL
+Content-Length: 221
+Accept-Ranges: bytes
+Date: Sun, 03 May 2020 19:25:58 GMT
+Via: 1.1 varnish
+Connection: keep-alive
+
+
+
+
+<<< EOC >>>
+www.google.com
+HTTP/1.1 200 OK
+Date: Sun, 03 May 2020 19:30:48 GMT
+Expires: -1
+Cache-Control: private, max-age=0
+Content-Type: text/html; charset=ISO-8859-1
+P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+Server: gws
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: 1P_JAR=2020-05-03-19; expires=Tue, 02-Jun-2020 19:30:48 GMT; path=/; domain=.google.com; Secure
+Set-Cookie: NID=203=IgCbnjr5esi-C69da3RypvBH7BRx5oN1YwbCpTYoTdaoqWti37ToeCOm8L2JTaVaMrtx8W-sU0iLt3aCsyg_vRlHKV60lc0PuAUP6azqnvFJT6rhFEVl971h03QjHfKidOJPGcHjPleUQwlIiaZt8_pp4Dh3McXVvVKFw9CP_pw; expires=Mon, 02-Nov-2020 19:30:48 GMT; path=/; domain=.google.com; HttpOnly
+Accept-Ranges: none
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+
+
+
+<<< EOC >>>
+google.com
+HTTP/1.1 200 OK
+Date: Mon, 04 May 2020 03:00:38 GMT
+Expires: -1
+Cache-Control: private, max-age=0
+Content-Type: text/html; charset=ISO-8859-1
+P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+Server: gws
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: 1P_JAR=2020-05-04-03; expires=Wed, 03-Jun-2020 03:00:39 GMT; path=/; domain=.google.com; Secure
+Set-Cookie: NID=203=TT0lHC25xke53rog33XzG3i3uXuPBbc2DsoY7t7_6mXDjrAn3mtnE7BzdKSUt84OrY4zT_P4Xg2GPQePTUFhWJ9cR4l3xhIre7H6uhOwbIUdNcDP8Xcc68NARClQQ2R-am8YG50TTEvvZquI-u4xf3Eb5Mp3A5n6xVX49n_5hSc; expires=Tue, 03-Nov-2020 03:00:38 GMT; path=/; domain=.google.com; HttpOnly
+Accept-Ranges: none
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+
+<<< EOC >>>

@@ -41,7 +41,6 @@ void Prev(tLista* L){
         while(L->act->sig != aux){
             Next(L);
             L->pos--;
-            puts("tap");
         }
         L->pos--;
     }
@@ -130,12 +129,14 @@ void MoveToStart(tLista *L) {
     L->act = L->head;
     L->pos = 0;
 }
+
 void MoveToEnd(tLista* L){
     L->act = L->tail;
     L->pos = L->ListSize-1;
 }
 
-/*
+
+/*  PRUEBAS
 int main(){
     tLista* L = BobLink();
     Insert(L,80);
